@@ -1,11 +1,11 @@
 package com.unit7.iss.model;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import org.bson.Document;
 import org.bson.types.Binary;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by breezzo on 03.08.15.
@@ -13,62 +13,57 @@ import java.util.Arrays;
 public class ImageModel implements BasicModel {
 
     public ImageModel() {
-        this.document = new Document();
     }
 
-    public ImageModel(Document document) {
-        this.document = document;
+    public ImageModel(Map<String, Object> map) {
+        fromMap(map);
     }
 
     public String getName() {
-        return document.getString("name");
+        return name;
     }
 
     public void setName(String name) {
-        document.put("name", name);
+        this.name = name;
     }
 
     public byte[] getContent() {
-        if (document.get("content") instanceof byte[])
-            return document.get("content", byte[].class);
-        else {
-            final Binary data = (Binary) document.get("content");
-            if (data != null)
-                return data.getData();
-            else
-                return null;
-        }
+        return content;
     }
 
     public void setContent(byte[] content) {
-        document.put("content", content);
+        this.content = content;
     }
 
-    public Document getDocument() {
-        return document;
+
+    private void fromMap(Map<String, Object> map) {
+        this.name = (String) map.get("name");
+        this.content = ((Binary) map.get("content")).getData();
+    }
+
+    public Map<String, Object> toMap() {
+        final Map<String, Object> map = new HashMap<String, Object>();
+
+        map.put("name", name);
+        map.put("content", content);
+
+        return map;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof ImageModel)) return false;
         ImageModel that = (ImageModel) o;
-
-        return Objects.equal(getName(), that.getName()) && Arrays.equals(getContent(), that.getContent());
+        return Objects.equal(name, that.name) &&
+                Arrays.equals(content, that.content);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getName(), getContent());
+        return Objects.hashCode(name, content);
     }
 
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("name", getName())
-                .add("content", getContent())
-                .toString();
-    }
-
-    private Document document;
+    private String name;
+    private byte[] content;
 }

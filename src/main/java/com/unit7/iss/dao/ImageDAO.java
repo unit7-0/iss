@@ -31,6 +31,6 @@ public class ImageDAO {
     }
 
     public void createImage(ImageModel image) {
-        getCollection().insertOne(image.getDocument());
+        getCollection().insertOne(new Document(image.toMap()));
     }
 }
