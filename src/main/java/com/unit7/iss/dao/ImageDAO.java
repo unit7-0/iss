@@ -1,6 +1,8 @@
 package com.unit7.iss.dao;
 
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.unit7.iss.model.ImageModel;
 import com.unit7.iss.model.behavior.ModelFactory;
@@ -28,7 +30,14 @@ public class ImageDAO {
 
 
     public ImageModel getImage(String name) {
-        return ModelFactory.toModel(getCollection().find(new Document("name", name)).first());
+        //TODO
+        final Document filter = new Document("name", name);
+
+        if (getCollection().count(filter) != 0) {
+            return ModelFactory.toModel(getCollection().find(filter).first());
+        }
+
+        return null;
     }
 
     public void createImage(ImageModel image) {

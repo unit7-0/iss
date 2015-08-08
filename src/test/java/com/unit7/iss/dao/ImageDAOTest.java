@@ -41,7 +41,7 @@ public class ImageDAOTest {
 
     @After
     public void tearDown() {
-        DatabaseFactory.instance().closeConnections();
+        DatabaseFactory.instance().destroy();
     }
 
     private ImageModel imageModel(String name, byte[] content) {

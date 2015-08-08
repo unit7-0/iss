@@ -50,7 +50,7 @@ public class GrizzlyServer {
     }
 
     public void stop() {
-        DatabaseFactory.instance().closeConnections();
+        DatabaseFactory.instance().destroy();
         server.shutdownNow();
     }
 

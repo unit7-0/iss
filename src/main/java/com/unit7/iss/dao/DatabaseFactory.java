@@ -28,8 +28,9 @@ public class DatabaseFactory {
         return mongoClient.getDatabase(databaseName);
     }
 
-    public void closeConnections() {
+    public void destroy() {
         mongoClient.close();
+        instance = null;
     }
 
     public static DatabaseFactory instance() {
