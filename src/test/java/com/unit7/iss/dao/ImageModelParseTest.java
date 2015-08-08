@@ -1,14 +1,17 @@
 package com.unit7.iss.dao;
 
+import com.google.common.base.Objects;
 import com.unit7.iss.model.ImageModel;
+import com.unit7.iss.model.behavior.ModelFactory;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by breezzo on 07.08.15.
@@ -26,14 +29,14 @@ public class ImageModelParseTest {
 
     @Test
     public void parseFromMap() {
-        final ImageModel model = new ImageModel(data);
+        final ImageModel model = ModelFactory.toModel(data);
 
-        assertEquals(standart, model);
+        assertTrue(equals(standart, model));
     }
 
     @Test
     public void parseToMap() {
-        final Map<String, Object> map = standart.toMap();
+        final Map<String, Object> map = ModelFactory.toMap(standart);
 
         assertEquals(data, map);
     }
@@ -42,7 +45,7 @@ public class ImageModelParseTest {
         final ImageModel model = new ImageModel();
 
         model.setName("name");
-        model.setContent(new byte[] { 1, 2, 3, 4, 5, 6 });
+        model.setContent(new byte[]{1, 2, 3, 4, 5, 6});
 
         return model;
     }
@@ -54,5 +57,10 @@ public class ImageModelParseTest {
         map.put("content", model.getContent());
 
         return map;
+    }
+
+    private boolean equals(ImageModel standart, ImageModel that) {
+        return Objects.equal(standart.getName(), that.getName()) &&
+                Arrays.equals(standart.getContent(), that.getContent());
     }
 }

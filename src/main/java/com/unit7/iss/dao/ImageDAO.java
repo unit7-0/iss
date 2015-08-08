@@ -3,6 +3,7 @@ package com.unit7.iss.dao;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.unit7.iss.model.ImageModel;
+import com.unit7.iss.model.behavior.ModelFactory;
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +28,10 @@ public class ImageDAO {
 
 
     public ImageModel getImage(String name) {
-        return new ImageModel(getCollection().find(new Document("name", name)).first());
+        return ModelFactory.toModel(getCollection().find(new Document("name", name)).first());
     }
 
     public void createImage(ImageModel image) {
-        getCollection().insertOne(new Document(image.toMap()));
+        getCollection().insertOne(new Document(ModelFactory.toMap(image)));
     }
 }

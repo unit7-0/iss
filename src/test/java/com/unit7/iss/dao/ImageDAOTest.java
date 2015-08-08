@@ -1,5 +1,6 @@
 package com.unit7.iss.dao;
 
+import com.google.common.base.Objects;
 import com.google.common.io.ByteStreams;
 import com.unit7.iss.model.ImageModel;
 import junit.framework.Assert;
@@ -9,6 +10,9 @@ import org.junit.Test;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by breezzo on 06.08.15.
@@ -29,7 +33,7 @@ public class ImageDAOTest {
 
             final ImageModel createdImage = imageDAO.getImage(imageName);
 
-            Assert.assertEquals(image, createdImage);
+            assertTrue(equals(image, createdImage));
         } catch (IOException e) {
             Assert.fail();
         }
@@ -57,5 +61,10 @@ public class ImageDAOTest {
         in.close();
 
         return data;
+    }
+
+    private boolean equals(ImageModel standart, ImageModel that) {
+        return Objects.equal(standart.getName(), that.getName()) &&
+                Arrays.equals(standart.getContent(), that.getContent());
     }
 }
