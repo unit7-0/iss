@@ -1,0 +1,28 @@
+.main-form-view {
+    border-color: #e5e5e5;
+    border: 1px solid rgba(86, 61, 124, .2);
+    border-width: 1px;
+    border-radius: 4px;
+    min-width: 300px;
+    width: 80%;
+    height: auto;
+    padding: 30px 10px 10px 10px;
+}
+
+.album-view {
+    display: inline-block;
+    padding: 1em 1em 1em 1em;
+    text-align: center;
+}
+
+.album-view > .album-preview {
+    background-color: #204d74;
+    min-width: 70px;
+    min-height: 70px;
+    max-width: 10%;
+    max-height: 10%;
+}
+
+.album-view > .album-name {
+    color: #080808;
+}
