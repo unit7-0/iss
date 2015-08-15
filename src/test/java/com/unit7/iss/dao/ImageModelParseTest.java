@@ -29,7 +29,7 @@ public class ImageModelParseTest {
 
     @Test
     public void parseFromMap() {
-        final ImageModel model = ModelFactory.toModel(data);
+        final ImageModel model = ModelFactory.createImage(data);
 
         assertTrue(equals(standart, model));
     }

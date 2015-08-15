@@ -1,6 +1,7 @@
 package com.unit7.iss.model.behavior;
 
 import com.unit7.iss.model.ImageModel;
+import com.unit7.iss.model.UserModel;
 import org.bson.types.Binary;
 
 import java.util.HashMap;
@@ -12,7 +13,7 @@ import java.util.Map;
  * TODO подумать над паттерном
  */
 public class ModelFactory {
-    public static ImageModel toModel(Map<String, Object> map) {
+    public static ImageModel createImage(Map<String, Object> map) {
         final ImageModel model = new ImageModel();
 
         model.setName((String) map.get("name"));
@@ -26,6 +27,26 @@ public class ModelFactory {
 
         map.put("name", model.getName());
         map.put("content", model.getContent());
+
+        return map;
+    }
+
+    public static UserModel createUser(Map<String, Object> map) {
+        final UserModel model = new UserModel();
+
+        model.setLogin((String) map.get("login"));
+        model.setName((String) map.get("name"));
+        model.setPassword((String) map.get("password"));
+
+        return model;
+    }
+
+    public static Map<String, Object> toMap(UserModel model) {
+        final Map<String, Object> map = new HashMap<>();
+
+        map.put("login", model.getLogin());
+        map.put("name", model.getName());
+        map.put("password", model.getPassword());
 
         return map;
     }
