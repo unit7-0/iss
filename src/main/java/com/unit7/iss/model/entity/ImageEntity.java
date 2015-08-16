@@ -6,7 +6,7 @@ import com.google.common.base.MoreObjects;
  * Created by breezzo on 16.08.15.
  */
 @org.mongodb.morphia.annotations.Entity("images")
-public class ImageModel extends AbstractEntity {
+public class ImageEntity extends AbstractEntity {
     private String name;
     private byte[] content;
 

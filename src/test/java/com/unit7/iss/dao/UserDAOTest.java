@@ -1,7 +1,7 @@
 package com.unit7.iss.dao;
 
 import com.mongodb.DuplicateKeyException;
-import com.unit7.iss.model.entity.UserModel;
+import com.unit7.iss.model.entity.UserEntity;
 import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
@@ -24,12 +24,12 @@ public class UserDAOTest {
 
     @Test
     public void create() {
-        final UserModel user = user();
+        final UserEntity user = user();
 
         dao.delete(user);
         dao.create(user);
 
-        final UserModel fromDb = dao.getById(user.getId());
+        final UserEntity fromDb = dao.getById(user.getId());
 
         Assert.assertNotNull(fromDb);
         Assert.assertTrue(equals(user, fromDb));
@@ -37,14 +37,14 @@ public class UserDAOTest {
 
     @Test
     public void getByLogin() {
-        final UserModel user = user();
-        final UserModel forDelete = new UserModel();
+        final UserEntity user = user();
+        final UserEntity forDelete = new UserEntity();
         forDelete.setLogin(login);
 
         dao.delete(forDelete);
         dao.create(user);
 
-        final UserModel byLogin = dao.getByLogin(login);
+        final UserEntity byLogin = dao.getByLogin(login);
 
         Assert.assertNotNull(byLogin);
         Assert.assertEquals(login, byLogin.getLogin());
@@ -52,22 +52,22 @@ public class UserDAOTest {
 
     @Test
     public void delete() {
-        final UserModel user = user();
+        final UserEntity user = user();
 
         dao.delete(user);
         dao.create(user);
 
         Assert.assertEquals(1, dao.delete(user));
 
-        final UserModel fromDb = dao.getById(user.getId());
+        final UserEntity fromDb = dao.getById(user.getId());
 
         Assert.assertNull(fromDb);
     }
 
     @Test
     public void update() {
-        final UserModel user = user();
-        final UserModel forDelete = new UserModel();
+        final UserEntity user = user();
+        final UserEntity forDelete = new UserEntity();
         forDelete.setLogin("delete1234");
 
         dao.delete(user);
@@ -79,7 +79,7 @@ public class UserDAOTest {
         user.setPassword("456666");
 
         final int updateCount = dao.update(user);
-        final UserModel updatedUser = dao.getById(user.getId());
+        final UserEntity updatedUser = dao.getById(user.getId());
 
         Assert.assertEquals(1, updateCount);
         Assert.assertTrue(equals(user, updatedUser));
@@ -87,14 +87,14 @@ public class UserDAOTest {
 
     @Test(expected = DuplicateKeyException.class)
     public void insertNonUnique() {
-        final UserModel user = user();
+        final UserEntity user = user();
 
         dao.create(user);
         dao.create(user);
     }
 
-    private UserModel user() {
-        final UserModel user = new UserModel();
+    private UserEntity user() {
+        final UserEntity user = new UserEntity();
 
         user.setLogin(login);
         user.setName("name");
@@ -103,7 +103,7 @@ public class UserDAOTest {
         return user;
     }
 
-    private boolean equals(UserModel a, UserModel b) {
+    private boolean equals(UserEntity a, UserEntity b) {
         return  Objects.equals(a.getId(), b.getId()) &&
                 Objects.equals(a.getName(), b.getName()) &&
                 Objects.equals(a.getPassword(), b.getPassword());

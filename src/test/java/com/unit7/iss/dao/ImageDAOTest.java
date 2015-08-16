@@ -1,6 +1,6 @@
 package com.unit7.iss.dao;
 
-import com.unit7.iss.model.entity.ImageModel;
+import com.unit7.iss.model.entity.ImageEntity;
 import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
@@ -28,7 +28,7 @@ public class ImageDAOTest {
     public void create() {
         logger.debug("create");
 
-        final ImageModel model = image();
+        final ImageEntity model = image();
 
         dao.create(model);
 
@@ -41,10 +41,10 @@ public class ImageDAOTest {
     public void getById() {
         logger.debug("getById");
 
-        final ImageModel model = image();
+        final ImageEntity model = image();
 
         dao.create(model);
-        final ImageModel persist = dao.getById(model.getId());
+        final ImageEntity persist = dao.getById(model.getId());
 
         Assert.assertEquals(model.getId(), persist.getId());
         Assert.assertEquals(model.getName(), persist.getName());
@@ -53,11 +53,11 @@ public class ImageDAOTest {
 
     @Test
     public void update() {
-        final ImageModel model = image();
+        final ImageEntity model = image();
 
         dao.create(model);
 
-        final ImageModel newModel = image();
+        final ImageEntity newModel = image();
         newModel.setName("321");
         newModel.setContent(new byte[]{1});
         newModel.setId(model.getId());
@@ -66,7 +66,7 @@ public class ImageDAOTest {
 
         Assert.assertEquals(1, updatedCount);
 
-        final ImageModel persist = dao.getById(model.getId());
+        final ImageEntity persist = dao.getById(model.getId());
 
         Assert.assertEquals(newModel.getName(), persist.getName());
         Assert.assertTrue(Arrays.equals(newModel.getContent(), persist.getContent()));
@@ -76,7 +76,7 @@ public class ImageDAOTest {
     public void deletebyId() {
         logger.debug("deleteById");
 
-        final ImageModel model = image();
+        final ImageEntity model = image();
 
         dao.create(model);
 
@@ -88,13 +88,13 @@ public class ImageDAOTest {
     public void deleteNotExisted() {
         logger.debug("deleteNotExisted");
 
-        final ImageModel model = image();
+        final ImageEntity model = image();
 
         Assert.assertFalse(dao.deleteById(model.getId()));
     }
 
-    private ImageModel image() {
-        final ImageModel model = new ImageModel();
+    private ImageEntity image() {
+        final ImageEntity model = new ImageEntity();
 
         model.setName("123");
         model.setContent(new byte[]{1, 2, 3});

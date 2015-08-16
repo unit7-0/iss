@@ -7,7 +7,7 @@ import org.mongodb.morphia.annotations.*;
  * Created by breezzo on 09.08.15.
  */
 @org.mongodb.morphia.annotations.Entity("users")
-public class UserModel extends AbstractEntity {
+public class UserEntity extends AbstractEntity {
 
     @Indexed(unique = true)
     private String login;

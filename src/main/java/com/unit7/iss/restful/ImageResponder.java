@@ -3,7 +3,7 @@ package com.unit7.iss.restful;
 import com.google.common.base.Optional;
 import com.google.common.io.ByteStreams;
 import com.google.inject.Inject;
-import com.unit7.iss.model.entity.ImageModel;
+import com.unit7.iss.model.entity.ImageEntity;
 import com.unit7.iss.service.ImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +38,7 @@ public class ImageResponder {
 
         try {
 
-            final Optional<ImageModel> image = imageService.getImage(imageName);
+            final Optional<ImageEntity> image = imageService.getImage(imageName);
 
             if (!image.isPresent()) {
                 logger.error("file not found");
@@ -62,7 +62,7 @@ public class ImageResponder {
             final File file = new File("/home/breezzo/img2.jpg");
             final byte[] content = ByteStreams.toByteArray(new FileInputStream(file));
 
-            final ImageModel image = new ImageModel();
+            final ImageEntity image = new ImageEntity();
             image.setName(imageName);
             image.setContent(content);
 

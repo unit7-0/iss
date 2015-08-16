@@ -1,27 +1,27 @@
 package com.unit7.iss.dao;
 
 import com.mongodb.WriteResult;
-import com.unit7.iss.model.entity.UserModel;
+import com.unit7.iss.model.entity.UserEntity;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 
 /**
  * Created by breezzo on 09.08.15.
  */
-public class UserDAO extends AbstractDAO<UserModel> {
+public class UserDAO extends AbstractDAO<UserEntity> {
 
     private static final String DATABASE_NAME = DatabaseFactory.ISS_DATABASE_NAME;
 
     public UserDAO() {
-        super(UserModel.class, DATABASE_NAME);
+        super(UserEntity.class, DATABASE_NAME);
 
         datastore.ensureIndexes();
     }
 
     @Override
-    public int update(UserModel entity) {
-        final UpdateOperations<UserModel> updateOps =
-                datastore.createUpdateOperations(UserModel.class)
+    public int update(UserEntity entity) {
+        final UpdateOperations<UserEntity> updateOps =
+                datastore.createUpdateOperations(UserEntity.class)
                         .set("login", entity.getLogin())
                         .set("name", entity.getName())
                         .set("password", entity.getPassword());
@@ -29,8 +29,8 @@ public class UserDAO extends AbstractDAO<UserModel> {
         return super.update(entity, updateOps);
     }
 
-    public int delete(UserModel user) {
-        final Query<UserModel> query = datastore.createQuery(UserModel.class);
+    public int delete(UserEntity user) {
+        final Query<UserEntity> query = datastore.createQuery(UserEntity.class);
 
         if (user.getLogin() != null)
             query.filter("login =", user.getLogin());
