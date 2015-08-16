@@ -1,44 +1,28 @@
 package com.unit7.iss.dao;
 
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import com.unit7.iss.model.ImageModel;
-import com.unit7.iss.model.behavior.ModelFactory;
-import org.bson.Document;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.unit7.iss.model.entity.ImageModel;
+import org.mongodb.morphia.query.UpdateOperations;
 
 /**
- * Created by breezzo on 02.08.15.
+ * Created by breezzo on 15.08.15.
  */
-public class ImageDAO {
-    private static final Logger logger = LoggerFactory.getLogger(ImageDAO.class);
+public class ImageDAO extends AbstractDAO<ImageModel> {
+    private static final String DATABASE_NAME = DatabaseFactory.ISS_DATABASE_NAME;
 
-    private static final String IMAGE_DATABASE_NAME = "image";
-    private static final String IMAGE_COLLECTION_NAME = "images";
-
-
-    private MongoDatabase getDatabase() {
-        return DatabaseFactory.instance().getMongo(IMAGE_DATABASE_NAME);
+    public ImageDAO() {
+        super(ImageModel.class, DATABASE_NAME);
     }
 
-    private MongoCollection<Document> getCollection() {
-        return getDatabase().getCollection(IMAGE_COLLECTION_NAME);
-    }
+    @Override
+    public int update(ImageModel entity) {
+        final UpdateOperations<ImageModel> updateOps = datastore.createUpdateOperations(ImageModel.class)
+                                                                    .set("name", entity.getName())
+                                                                    .set("content", entity.getContent());
 
+        return update(entity, updateOps);
+    }
 
     public ImageModel getImage(String name) {
-        //TODO
-        final Document filter = new Document("name", name);
-
-        if (getCollection().count(filter) != 0) {
-            return ModelFactory.createImage(getCollection().find(filter).first());
-        }
-
-        return null;
-    }
-
-    public void createImage(ImageModel image) {
-        getCollection().insertOne(new Document(ModelFactory.toMap(image)));
+        return datastore.find(ImageModel.class, "name", name).get();
     }
 }

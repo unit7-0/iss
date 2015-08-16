@@ -3,7 +3,7 @@ package com.unit7.iss.restful;
 import com.google.common.base.Optional;
 import com.google.common.io.ByteStreams;
 import com.google.inject.Inject;
-import com.unit7.iss.model.ImageModel;
+import com.unit7.iss.model.entity.ImageModel;
 import com.unit7.iss.service.ImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

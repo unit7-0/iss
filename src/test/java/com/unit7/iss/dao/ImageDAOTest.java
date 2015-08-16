@@ -1,70 +1,109 @@
 package com.unit7.iss.dao;
 
-import com.google.common.base.Objects;
-import com.google.common.io.ByteStreams;
-import com.unit7.iss.model.ImageModel;
+import com.unit7.iss.model.entity.ImageModel;
 import junit.framework.Assert;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertTrue;
-
 /**
- * Created by breezzo on 06.08.15.
+ * Created by breezzo on 15.08.15.
  */
 public class ImageDAOTest {
 
-    private final String filePath = "/home/breezzo/img2.jpg";
-    private final String imageName = "nature";
+    private static final Logger logger = LoggerFactory.getLogger(ImageDAOTest.class);
 
-    private ImageDAO imageDAO = new ImageDAO();
+    private ImageDAO dao;
+
+    @Before
+    public void setup() {
+        dao = new ImageDAO();
+    }
 
     @Test
-    public void createAndGetImage() {
-        try {
-            final ImageModel image = imageModel(imageName, imageContent(filePath));
+    public void create() {
+        logger.debug("create");
 
-            imageDAO.createImage(image);
+        final ImageModel model = image();
 
-            final ImageModel createdImage = imageDAO.getImage(imageName);
+        dao.create(model);
 
-            assertTrue(equals(image, createdImage));
-        } catch (IOException e) {
-            Assert.fail();
-        }
+        logger.debug("created model: {}", model);
+
+        Assert.assertNotNull(model.getId());
+    }
+
+    @Test
+    public void getById() {
+        logger.debug("getById");
+
+        final ImageModel model = image();
+
+        dao.create(model);
+        final ImageModel persist = dao.getById(model.getId());
+
+        Assert.assertEquals(model.getId(), persist.getId());
+        Assert.assertEquals(model.getName(), persist.getName());
+        Assert.assertTrue(Arrays.equals(model.getContent(), persist.getContent()));
+    }
+
+    @Test
+    public void update() {
+        final ImageModel model = image();
+
+        dao.create(model);
+
+        final ImageModel newModel = image();
+        newModel.setName("321");
+        newModel.setContent(new byte[]{1});
+        newModel.setId(model.getId());
+
+        final int updatedCount = dao.update(newModel);
+
+        Assert.assertEquals(1, updatedCount);
+
+        final ImageModel persist = dao.getById(model.getId());
+
+        Assert.assertEquals(newModel.getName(), persist.getName());
+        Assert.assertTrue(Arrays.equals(newModel.getContent(), persist.getContent()));
+    }
+
+    @Test
+    public void deletebyId() {
+        logger.debug("deleteById");
+
+        final ImageModel model = image();
+
+        dao.create(model);
+
+        Assert.assertTrue(dao.deleteById(model.getId()));
+        Assert.assertNull(dao.getById(model.getId()));
+    }
+
+    @Test
+    public void deleteNotExisted() {
+        logger.debug("deleteNotExisted");
+
+        final ImageModel model = image();
+
+        Assert.assertFalse(dao.deleteById(model.getId()));
+    }
+
+    private ImageModel image() {
+        final ImageModel model = new ImageModel();
+
+        model.setName("123");
+        model.setContent(new byte[]{1, 2, 3});
+
+        return model;
     }
 
     @After
     public void tearDown() {
         DatabaseFactory.instance().destroy();
-    }
-
-    private ImageModel imageModel(String name, byte[] content) {
-        final ImageModel model = new ImageModel();
-
-        model.setName(name);
-        model.setContent(content);
-
-        return model;
-    }
-
-    private byte[] imageContent(String filePath) throws IOException {
-        final InputStream in = new FileInputStream(filePath);
-
-        byte[] data = ByteStreams.toByteArray(in);
-
-        in.close();
-
-        return data;
-    }
-
-    private boolean equals(ImageModel standart, ImageModel that) {
-        return Objects.equal(standart.getName(), that.getName()) &&
-                Arrays.equals(standart.getContent(), that.getContent());
     }
 }

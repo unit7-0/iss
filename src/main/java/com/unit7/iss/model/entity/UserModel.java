@@ -1,9 +1,9 @@
-package com.unit7.iss.model;
+package com.unit7.iss.model.entity;
 
 /**
  * Created by breezzo on 09.08.15.
  */
-public class UserModel {
+public class UserModel extends AbstractEntity {
     private String name;
     private String login;
     private String password;

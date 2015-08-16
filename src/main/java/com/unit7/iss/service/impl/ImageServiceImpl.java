@@ -3,7 +3,7 @@ package com.unit7.iss.service.impl;
 import com.google.common.base.Optional;
 import com.google.inject.Singleton;
 import com.unit7.iss.dao.ImageDAO;
-import com.unit7.iss.model.ImageModel;
+import com.unit7.iss.model.entity.ImageModel;
 import com.unit7.iss.service.ImageService;
 
 /**
@@ -20,6 +20,6 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public void createImage(ImageModel image) {
-        imageDAO.createImage(image);
+        imageDAO.create(image);
     }
 }
