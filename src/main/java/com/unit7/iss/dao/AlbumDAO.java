@@ -2,7 +2,7 @@ package com.unit7.iss.dao;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.unit7.iss.model.entity.AlbumEntity;
+import com.unit7.iss.model.entity.Album;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
  * Created by breezzo on 16.08.15.
  */
 @Singleton
-public class AlbumDAO extends AbstractDAO<AlbumEntity> {
+public class AlbumDAO extends AbstractDAO<Album> {
 
     private static final Logger logger = LoggerFactory.getLogger(AlbumDAO.class);
 
@@ -20,11 +20,11 @@ public class AlbumDAO extends AbstractDAO<AlbumEntity> {
     private ImageDAO imageDAO;
 
     public AlbumDAO() {
-        super(AlbumEntity.class, DATABASE_NAME);
+        super(Album.class, DATABASE_NAME);
     }
 
     @Override
-    public void create(AlbumEntity entity) {
+    public void create(Album entity) {
         logger.debug("creating entity: {}", entity);
 
         entity.getSubAlbums()
@@ -37,7 +37,7 @@ public class AlbumDAO extends AbstractDAO<AlbumEntity> {
     }
 
     @Override
-    public int update(AlbumEntity entity) {
+    public int update(Album entity) {
         throw new UnsupportedOperationException();
     }
 }

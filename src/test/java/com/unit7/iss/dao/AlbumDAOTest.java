@@ -4,8 +4,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.unit7.iss.model.entity.AlbumEntity;
-import com.unit7.iss.model.entity.ImageEntity;
+import com.unit7.iss.model.entity.Album;
+import com.unit7.iss.model.entity.Image;
 import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
@@ -40,11 +40,11 @@ public class AlbumDAOTest {
 
     @Test
     public void createWithChilds() {
-        final AlbumEntity album = albumFull();
+        final Album album = albumFull();
 
         dao.create(album);
 
-        final AlbumEntity fromDb = dao.getById(album.getId());
+        final Album fromDb = dao.getById(album.getId());
 
         Assert.assertNotNull(fromDb);
         Assert.assertTrue(equals(album, fromDb));
@@ -52,18 +52,18 @@ public class AlbumDAOTest {
 
     @Test
     public void createWithoutChilds() {
-        final AlbumEntity album = albumWithoutChilds();
+        final Album album = albumWithoutChilds();
 
         dao.create(album);
 
-        final AlbumEntity fromDb = dao.getById(album.getId());
+        final Album fromDb = dao.getById(album.getId());
 
         Assert.assertNotNull(fromDb);
         Assert.assertTrue(equals(album, fromDb));
     }
 
-    private AlbumEntity albumFull() {
-        final AlbumEntity album = new AlbumEntity();
+    private Album albumFull() {
+        final Album album = new Album();
 
         album.setName("album1");
         album.setSubAlbums(ImmutableList.of(albumWithoutChilds()));
@@ -72,16 +72,16 @@ public class AlbumDAOTest {
         return album;
     }
 
-    private AlbumEntity albumWithoutChilds() {
-        final AlbumEntity album = new AlbumEntity();
+    private Album albumWithoutChilds() {
+        final Album album = new Album();
 
         album.setName("album2");
 
         return album;
     }
 
-    private ImageEntity image() {
-        final ImageEntity image = new ImageEntity();
+    private Image image() {
+        final Image image = new Image();
 
         image.setName("image1");
         image.setContent(new byte[] { 1, 2, 3 });
@@ -89,15 +89,15 @@ public class AlbumDAOTest {
         return image;
     }
 
-    private boolean equals(AlbumEntity a, AlbumEntity b) {
+    private boolean equals(Album a, Album b) {
         // TODO develop tool for compare entities
 
-        final BiFunction<ImageEntity, ImageEntity, Boolean> compareImages = (f, s) ->
+        final BiFunction<Image, Image, Boolean> compareImages = (f, s) ->
                 Objects.equals(f.getName(), s.getName()) &&
                 Objects.equals(f.getId(), s.getId()) &&
                 Arrays.equals(f.getContent(), s.getContent());
 
-        final BiFunction<List<ImageEntity>, List<ImageEntity>, Boolean> compareImageLists = (f, s) -> {
+        final BiFunction<List<Image>, List<Image>, Boolean> compareImageLists = (f, s) -> {
             if (f.size() != s.size())
                 return false;
 
@@ -109,7 +109,7 @@ public class AlbumDAOTest {
             return true;
         };
 
-        final BiFunction<AlbumEntity, AlbumEntity, Boolean> compareAlbums = (f, s) -> {
+        final BiFunction<Album, Album, Boolean> compareAlbums = (f, s) -> {
             if (!(compareImageLists.apply(f.getImages(), s.getImages())))
                 return false;
 

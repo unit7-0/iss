@@ -10,14 +10,14 @@ import java.util.List;
  * Created by breezzo on 16.08.15.
  */
 @org.mongodb.morphia.annotations.Entity("albums")
-public class AlbumEntity extends AbstractEntity {
+public class Album extends AbstractEntity {
     private String name;
 
     @Reference
-    private List<AlbumEntity> subAlbums = Collections.emptyList();
+    private List<Album> subAlbums = Collections.emptyList();
 
     @Reference(idOnly = true)
-    private List<ImageEntity> images = Collections.emptyList();
+    private List<Image> images = Collections.emptyList();
 
     public String getName() {
         return name;
@@ -27,19 +27,19 @@ public class AlbumEntity extends AbstractEntity {
         this.name = name;
     }
 
-    public List<AlbumEntity> getSubAlbums() {
+    public List<Album> getSubAlbums() {
         return subAlbums;
     }
 
-    public void setSubAlbums(List<AlbumEntity> subAlbums) {
+    public void setSubAlbums(List<Album> subAlbums) {
         this.subAlbums = subAlbums;
     }
 
-    public List<ImageEntity> getImages() {
+    public List<Image> getImages() {
         return images;
     }
 
-    public void setImages(List<ImageEntity> images) {
+    public void setImages(List<Image> images) {
         this.images = images;
     }
 

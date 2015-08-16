@@ -4,7 +4,7 @@ import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.unit7.iss.dao.ImageDAO;
-import com.unit7.iss.model.entity.ImageEntity;
+import com.unit7.iss.model.entity.Image;
 import com.unit7.iss.service.ImageService;
 
 /**
@@ -16,12 +16,12 @@ public class ImageServiceImpl implements ImageService {
     private ImageDAO imageDAO;
 
     @Override
-    public Optional<ImageEntity> getFirstImageByName(String name) {
+    public Optional<Image> getFirstImageByName(String name) {
         return Optional.fromNullable(imageDAO.getFirstImageByName(name));
     }
 
     @Override
-    public void createImage(ImageEntity image) {
+    public void createImage(Image image) {
         imageDAO.create(image);
     }
 }

@@ -1,7 +1,7 @@
 package com.unit7.iss.service;
 
 import com.google.common.base.Optional;
-import com.unit7.iss.model.entity.ImageEntity;
+import com.unit7.iss.model.entity.Image;
 
 ;
 
@@ -10,7 +10,7 @@ import com.unit7.iss.model.entity.ImageEntity;
  */
 public interface ImageService {
     @Deprecated
-    Optional<ImageEntity> getFirstImageByName(String name);
+    Optional<Image> getFirstImageByName(String name);
 
-    void createImage(ImageEntity image);
+    void createImage(Image image);
 }

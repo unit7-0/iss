@@ -2,7 +2,7 @@ package com.unit7.iss.dao;
 
 import com.google.inject.Singleton;
 import com.mongodb.WriteResult;
-import com.unit7.iss.model.entity.UserEntity;
+import com.unit7.iss.model.entity.User;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 
@@ -10,20 +10,20 @@ import org.mongodb.morphia.query.UpdateOperations;
  * Created by breezzo on 09.08.15.
  */
 @Singleton
-public class UserDAO extends AbstractDAO<UserEntity> {
+public class UserDAO extends AbstractDAO<User> {
 
     private static final String DATABASE_NAME = DatabaseFactory.ISS_DATABASE_NAME;
 
     public UserDAO() {
-        super(UserEntity.class, DATABASE_NAME);
+        super(User.class, DATABASE_NAME);
 
         datastore.ensureIndexes();
     }
 
     @Override
-    public int update(UserEntity entity) {
-        final UpdateOperations<UserEntity> updateOps =
-                datastore.createUpdateOperations(UserEntity.class)
+    public int update(User entity) {
+        final UpdateOperations<User> updateOps =
+                datastore.createUpdateOperations(User.class)
                         .set("login", entity.getLogin())
                         .set("name", entity.getName())
                         .set("password", entity.getPassword());
@@ -31,8 +31,8 @@ public class UserDAO extends AbstractDAO<UserEntity> {
         return super.update(entity, updateOps);
     }
 
-    public int delete(UserEntity user) {
-        final Query<UserEntity> query = datastore.createQuery(UserEntity.class);
+    public int delete(User user) {
+        final Query<User> query = datastore.createQuery(User.class);
 
         if (user.getLogin() != null)
             query.filter("login =", user.getLogin());
@@ -48,7 +48,7 @@ public class UserDAO extends AbstractDAO<UserEntity> {
         return result.wasAcknowledged() ? result.getN() : 0;
     }
 
-    public UserEntity getByLogin(String login) {
-        return datastore.find(UserEntity.class, "login", login).get();
+    public User getByLogin(String login) {
+        return datastore.find(User.class, "login", login).get();
     }
 }
