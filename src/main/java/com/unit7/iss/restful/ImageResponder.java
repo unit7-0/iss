@@ -38,7 +38,7 @@ public class ImageResponder {
 
         try {
 
-            final Optional<ImageEntity> image = imageService.getImage(imageName);
+            final Optional<ImageEntity> image = imageService.getFirstImageByName(imageName);
 
             if (!image.isPresent()) {
                 logger.error("file not found");

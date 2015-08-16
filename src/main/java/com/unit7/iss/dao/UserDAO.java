@@ -1,5 +1,6 @@
 package com.unit7.iss.dao;
 
+import com.google.inject.Singleton;
 import com.mongodb.WriteResult;
 import com.unit7.iss.model.entity.UserEntity;
 import org.mongodb.morphia.query.Query;
@@ -8,6 +9,7 @@ import org.mongodb.morphia.query.UpdateOperations;
 /**
  * Created by breezzo on 09.08.15.
  */
+@Singleton
 public class UserDAO extends AbstractDAO<UserEntity> {
 
     private static final String DATABASE_NAME = DatabaseFactory.ISS_DATABASE_NAME;
@@ -44,5 +46,9 @@ public class UserDAO extends AbstractDAO<UserEntity> {
         final WriteResult result = datastore.delete(query);
 
         return result.wasAcknowledged() ? result.getN() : 0;
+    }
+
+    public UserEntity getByLogin(String login) {
+        return datastore.find(UserEntity.class, "login", login).get();
     }
 }
