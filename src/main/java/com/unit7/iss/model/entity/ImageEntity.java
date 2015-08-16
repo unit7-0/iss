@@ -8,7 +8,7 @@ import com.google.common.base.MoreObjects;
 @org.mongodb.morphia.annotations.Entity("images")
 public class ImageEntity extends AbstractEntity {
     private String name;
-    private byte[] content;
+    private byte[] content = new byte[0];
 
     public byte[] getContent() {
         return content;
