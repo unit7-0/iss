@@ -2,6 +2,7 @@ package com.unit7.iss.dao;
 
 import com.mongodb.WriteResult;
 import com.unit7.iss.model.entity.Entity;
+import com.unit7.iss.model.entity.UserModel;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.UpdateOperations;
@@ -58,5 +59,9 @@ public abstract class AbstractDAO<T extends Entity> implements DAO<T> {
         logger.debug("getting entity with id: {}", id);
 
         return datastore.get(entityClass, id);
+    }
+
+    public UserModel getByLogin(String login) {
+        return datastore.find(UserModel.class, "login", login).get();
     }
 }
