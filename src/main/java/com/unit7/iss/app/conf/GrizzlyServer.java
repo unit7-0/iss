@@ -1,8 +1,8 @@
-package com.unit7.iss.app;
+package com.unit7.iss.app.conf;
 
 import com.google.inject.servlet.GuiceFilter;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
-import com.unit7.iss.dao.DatabaseFactory;
+import com.unit7.iss.db.DatabaseFactory;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.ServerConfiguration;
 import org.glassfish.grizzly.http.server.StaticHttpHandler;

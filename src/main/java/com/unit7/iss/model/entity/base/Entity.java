@@ -1,4 +1,4 @@
-package com.unit7.iss.model.entity;
+package com.unit7.iss.model.entity.base;
 
 import org.bson.types.ObjectId;
 

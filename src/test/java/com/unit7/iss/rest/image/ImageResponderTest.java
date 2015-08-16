@@ -3,7 +3,7 @@ package com.unit7.iss.rest.image;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
-import com.unit7.iss.app.GrizzlyServer;
+import com.unit7.iss.app.conf.GrizzlyServer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

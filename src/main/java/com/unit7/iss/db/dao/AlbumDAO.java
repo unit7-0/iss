@@ -1,7 +1,9 @@
-package com.unit7.iss.dao;
+package com.unit7.iss.db.dao;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.unit7.iss.db.DatabaseFactory;
+import com.unit7.iss.db.dao.base.AbstractDAO;
 import com.unit7.iss.model.entity.Album;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

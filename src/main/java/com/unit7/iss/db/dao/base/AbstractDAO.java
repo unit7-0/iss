@@ -1,7 +1,8 @@
-package com.unit7.iss.dao;
+package com.unit7.iss.db.dao.base;
 
 import com.mongodb.WriteResult;
-import com.unit7.iss.model.entity.Entity;
+import com.unit7.iss.db.DatabaseFactory;
+import com.unit7.iss.model.entity.base.Entity;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.UpdateOperations;

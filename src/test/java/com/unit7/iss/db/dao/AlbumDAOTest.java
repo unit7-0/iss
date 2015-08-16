@@ -1,9 +1,10 @@
-package com.unit7.iss.dao;
+package com.unit7.iss.db.dao;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.unit7.iss.db.DatabaseFactory;
 import com.unit7.iss.model.entity.Album;
 import com.unit7.iss.model.entity.Image;
 import junit.framework.Assert;

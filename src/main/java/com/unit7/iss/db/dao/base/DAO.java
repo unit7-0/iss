@@ -1,6 +1,6 @@
-package com.unit7.iss.dao;
+package com.unit7.iss.db.dao.base;
 
-import com.unit7.iss.model.entity.Entity;
+import com.unit7.iss.model.entity.base.Entity;
 import org.bson.types.ObjectId;
 
 /**

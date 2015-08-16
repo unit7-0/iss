@@ -1,4 +1,4 @@
-package com.unit7.iss.dao;
+package com.unit7.iss.db;
 
 import com.mongodb.MongoClient;
 import org.mongodb.morphia.Datastore;

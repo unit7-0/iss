@@ -1,5 +1,6 @@
-package com.unit7.iss.dao;
+package com.unit7.iss.db.dao;
 
+import com.unit7.iss.db.DatabaseFactory;
 import com.unit7.iss.model.entity.Image;
 import junit.framework.Assert;
 import org.junit.After;

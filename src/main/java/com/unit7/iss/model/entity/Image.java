@@ -1,6 +1,7 @@
 package com.unit7.iss.model.entity;
 
 import com.google.common.base.MoreObjects;
+import com.unit7.iss.model.entity.base.AbstractEntity;
 
 /**
  * Created by breezzo on 16.08.15.

@@ -1,6 +1,8 @@
-package com.unit7.iss.dao;
+package com.unit7.iss.db.dao;
 
 import com.google.inject.Singleton;
+import com.unit7.iss.db.DatabaseFactory;
+import com.unit7.iss.db.dao.base.AbstractDAO;
 import com.unit7.iss.model.entity.Image;
 import org.mongodb.morphia.query.UpdateOperations;
 
