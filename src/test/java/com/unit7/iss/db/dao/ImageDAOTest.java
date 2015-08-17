@@ -2,14 +2,13 @@ package com.unit7.iss.db.dao;
 
 import com.unit7.iss.db.DatabaseFactory;
 import com.unit7.iss.model.entity.Image;
+import com.unit7.iss.util.compare.ReflectionComparator;
 import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Arrays;
 
 /**
  * Created by breezzo on 15.08.15.
@@ -47,9 +46,7 @@ public class ImageDAOTest {
         dao.create(model);
         final Image persist = dao.getById(model.getId());
 
-        Assert.assertEquals(model.getId(), persist.getId());
-        Assert.assertEquals(model.getName(), persist.getName());
-        Assert.assertTrue(Arrays.equals(model.getContent(), persist.getContent()));
+        Assert.assertTrue(equals(model.getContent(), persist.getContent()));
     }
 
     @Test
@@ -69,8 +66,7 @@ public class ImageDAOTest {
 
         final Image persist = dao.getById(model.getId());
 
-        Assert.assertEquals(newModel.getName(), persist.getName());
-        Assert.assertTrue(Arrays.equals(newModel.getContent(), persist.getContent()));
+        Assert.assertTrue(equals(newModel.getContent(), persist.getContent()));
     }
 
     @Test
@@ -101,6 +97,10 @@ public class ImageDAOTest {
         model.setContent(new byte[]{1, 2, 3});
 
         return model;
+    }
+
+    private boolean equals(Object a, Object b) {
+        return new ReflectionComparator().compare(a, b) == 0;
     }
 
     @After

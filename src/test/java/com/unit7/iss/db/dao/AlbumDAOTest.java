@@ -7,6 +7,7 @@ import com.google.inject.Injector;
 import com.unit7.iss.db.DatabaseFactory;
 import com.unit7.iss.model.entity.Album;
 import com.unit7.iss.model.entity.Image;
+import com.unit7.iss.util.compare.ReflectionComparator;
 import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
@@ -85,47 +86,13 @@ public class AlbumDAOTest {
         final Image image = new Image();
 
         image.setName("image1");
-        image.setContent(new byte[] { 1, 2, 3 });
+        image.setContent(new byte[]{1, 2, 3});
 
         return image;
     }
 
     private boolean equals(Album a, Album b) {
-        // TODO develop tool for compare entities
-
-        final BiFunction<Image, Image, Boolean> compareImages = (f, s) ->
-                Objects.equals(f.getName(), s.getName()) &&
-                Objects.equals(f.getId(), s.getId()) &&
-                Arrays.equals(f.getContent(), s.getContent());
-
-        final BiFunction<List<Image>, List<Image>, Boolean> compareImageLists = (f, s) -> {
-            if (f.size() != s.size())
-                return false;
-
-            for (int i = 0; i < f.size(); ++i) {
-                if (!compareImages.apply(f.get(i), s.get(i)))
-                    return false;
-            }
-
-            return true;
-        };
-
-        final BiFunction<Album, Album, Boolean> compareAlbums = (f, s) -> {
-            if (!(compareImageLists.apply(f.getImages(), s.getImages())))
-                return false;
-
-            if (f.getSubAlbums().size() != s.getSubAlbums().size())
-                return false;
-
-            for (int i = 0; i < f.getSubAlbums().size(); ++i) {
-                if (!(equals(f.getSubAlbums().get(i), s.getSubAlbums().get(i))))
-                    return false;
-            }
-
-            return Objects.equals(f.getName(), s.getName()) && Objects.equals(f.getId(), s.getId());
-        };
-
-        return compareAlbums.apply(a, b);
+        return new ReflectionComparator().compare(a, b) == 0;
     }
 
     @After

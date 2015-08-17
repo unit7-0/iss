@@ -3,12 +3,11 @@ package com.unit7.iss.db.dao;
 import com.mongodb.DuplicateKeyException;
 import com.unit7.iss.db.DatabaseFactory;
 import com.unit7.iss.model.entity.User;
+import com.unit7.iss.util.compare.ReflectionComparator;
 import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Objects;
 
 /**
  * Created by breezzo on 16.08.15.
@@ -105,9 +104,7 @@ public class UserDAOTest {
     }
 
     private boolean equals(User a, User b) {
-        return  Objects.equals(a.getId(), b.getId()) &&
-                Objects.equals(a.getName(), b.getName()) &&
-                Objects.equals(a.getPassword(), b.getPassword());
+        return new ReflectionComparator().compare(a, b) == 0;
     }
 
     @After
