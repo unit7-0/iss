@@ -21,6 +21,9 @@ public class AlbumDAO extends AbstractDAO<Album> {
     @Inject
     private ImageDAO imageDAO;
 
+    @Inject
+    private UserDAO userDAO;
+
     public AlbumDAO() {
         super(Album.class, DATABASE_NAME);
     }
@@ -34,6 +37,8 @@ public class AlbumDAO extends AbstractDAO<Album> {
 
         entity.getImages()
                 .forEach((image) -> imageDAO.create(image));
+
+        userDAO.create(entity.getUser());
 
         super.create(entity);
     }

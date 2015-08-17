@@ -7,6 +7,7 @@ import com.google.inject.Injector;
 import com.unit7.iss.db.DatabaseFactory;
 import com.unit7.iss.model.entity.Album;
 import com.unit7.iss.model.entity.Image;
+import com.unit7.iss.model.entity.User;
 import com.unit7.iss.util.compare.ReflectionComparator;
 import junit.framework.Assert;
 import org.junit.After;
@@ -24,6 +25,7 @@ import java.util.function.BiFunction;
 public class AlbumDAOTest {
 
     private AlbumDAO dao;
+    private UserDAO userDAO;
 
     @Before
     public void setup() {
@@ -34,10 +36,12 @@ public class AlbumDAOTest {
             protected void configure() {
                 bind(ImageDAO.class);
                 bind(AlbumDAO.class);
+                bind(UserDAO.class);
             }
         });
 
         dao = injector.getInstance(AlbumDAO.class);
+        userDAO = injector.getInstance(UserDAO.class);
     }
 
     @Test
@@ -68,6 +72,7 @@ public class AlbumDAOTest {
         final Album album = new Album();
 
         album.setName("album1");
+        album.setUser(user());
         album.setSubAlbums(ImmutableList.of(albumWithoutChilds()));
         album.setImages(ImmutableList.of(image(), image()));
 
@@ -78,8 +83,24 @@ public class AlbumDAOTest {
         final Album album = new Album();
 
         album.setName("album2");
+        album.setUser(user());
 
         return album;
+    }
+
+    private User user() {
+        final String login = "login";
+
+        User user = userDAO.getByLogin(login);
+
+        if (user == null) {
+            user = new User();
+            user.setLogin(login);
+            user.setName("name1");
+            user.setPassword("123456");
+        }
+
+        return user;
     }
 
     private Image image() {

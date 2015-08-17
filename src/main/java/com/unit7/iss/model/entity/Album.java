@@ -14,6 +14,9 @@ import java.util.List;
 public class Album extends AbstractEntity {
     private String name;
 
+    @Reference(idOnly = true)
+    private User user;
+
     @Reference
     private List<Album> subAlbums = Collections.emptyList();
 
@@ -44,12 +47,21 @@ public class Album extends AbstractEntity {
         this.images = images;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("name", name)
                 .add("subAlbums", subAlbums)
                 .add("images", images)
+                .add("user", user)
                 .toString();
     }
 }
