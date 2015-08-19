@@ -1,6 +1,9 @@
 package com.unit7.iss.service.image;
 
+import com.carlosbecker.guice.GuiceModules;
+import com.carlosbecker.guice.GuiceTestRunner;
 import com.google.inject.Inject;
+import com.unit7.iss.app.conf.GuiceMainModule;
 import com.unit7.iss.db.DatabaseFactory;
 import com.unit7.iss.model.entity.Album;
 import com.unit7.iss.model.entity.User;
@@ -11,15 +14,18 @@ import com.unit7.iss.stub.image.ImageStubBuilder;
 import com.unit7.iss.stub.user.UserStubBuilder;
 import com.unit7.iss.util.compare.ReflectionComparator;
 import junit.framework.Assert;
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.List;
 
 /**
  * Created by breezzo on 19.08.15.
  */
+@RunWith(GuiceTestRunner.class)
+@GuiceModules(GuiceMainModule.class)
 public class AlbumServiceTest {
 
     private static final String USER_LOGIN = "service_user";
@@ -125,8 +131,8 @@ public class AlbumServiceTest {
         return new ReflectionComparator().compare(a, b) == 0;
     }
 
-    @After
-    public void tearDown() {
+    @AfterClass
+    public static void tearDown() {
         DatabaseFactory.instance().destroy();
     }
 }

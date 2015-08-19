@@ -1,8 +1,9 @@
 package com.unit7.iss.db.dao;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import com.carlosbecker.guice.GuiceModules;
+import com.carlosbecker.guice.GuiceTestRunner;
+import com.google.inject.Inject;
+import com.unit7.iss.app.conf.GuiceMainModule;
 import com.unit7.iss.db.DatabaseFactory;
 import com.unit7.iss.model.entity.Album;
 import com.unit7.iss.model.entity.User;
@@ -11,16 +12,22 @@ import com.unit7.iss.stub.image.ImageStubBuilder;
 import com.unit7.iss.stub.user.UserStubBuilder;
 import com.unit7.iss.util.compare.ReflectionComparator;
 import junit.framework.Assert;
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Created by breezzo on 16.08.15.
  */
+@RunWith(GuiceTestRunner.class)
+@GuiceModules(GuiceMainModule.class)
 public class AlbumDAOTest {
 
+    @Inject
     private AlbumDAO dao;
+
+    @Inject
     private UserDAO userDAO;
 
     private AlbumStubBuilder albumBuilder;
@@ -29,20 +36,6 @@ public class AlbumDAOTest {
 
     @Before
     public void setup() {
-
-        // TODO use running framework
-        final Injector injector = Guice.createInjector(new AbstractModule() {
-            @Override
-            protected void configure() {
-                bind(ImageDAO.class);
-                bind(AlbumDAO.class);
-                bind(UserDAO.class);
-            }
-        });
-
-        dao = injector.getInstance(AlbumDAO.class);
-        userDAO = injector.getInstance(UserDAO.class);
-
         userBuilder = UserStubBuilder.newInstance()
                             .setLogin("login")
                             .setName("album_user")
@@ -116,8 +109,8 @@ public class AlbumDAOTest {
         return new ReflectionComparator().compare(a, b) == 0;
     }
 
-    @After
-    public void tearDown() {
+    @AfterClass
+    public static void tearDown() {
         DatabaseFactory.instance().destroy();
     }
 }
