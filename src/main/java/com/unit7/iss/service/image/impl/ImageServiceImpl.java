@@ -1,4 +1,4 @@
-package com.unit7.iss.service.impl;
+package com.unit7.iss.service.image.impl;
 
 import com.google.common.base.Optional;
 import com.google.inject.Inject;

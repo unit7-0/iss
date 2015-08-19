@@ -34,7 +34,7 @@ public abstract class AbstractDAO<T extends Entity> implements DAO<T> {
     public void create(T entity) {
         logger.debug("creating entity: {}", entity);
 
-        if (entity.getId() ==null) // TODO
+        if (entity.getId() == null) // TODO
             datastore.save(entity);
     }
 

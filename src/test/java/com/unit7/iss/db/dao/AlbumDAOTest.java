@@ -1,23 +1,19 @@
 package com.unit7.iss.db.dao;
 
-import com.google.common.collect.ImmutableList;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.unit7.iss.db.DatabaseFactory;
 import com.unit7.iss.model.entity.Album;
-import com.unit7.iss.model.entity.Image;
 import com.unit7.iss.model.entity.User;
+import com.unit7.iss.stub.image.AlbumStubBuilder;
+import com.unit7.iss.stub.image.ImageStubBuilder;
+import com.unit7.iss.stub.user.UserStubBuilder;
 import com.unit7.iss.util.compare.ReflectionComparator;
 import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.BiFunction;
 
 /**
  * Created by breezzo on 16.08.15.
@@ -26,6 +22,10 @@ public class AlbumDAOTest {
 
     private AlbumDAO dao;
     private UserDAO userDAO;
+
+    private AlbumStubBuilder albumBuilder;
+    private ImageStubBuilder imageBuilder;
+    private UserStubBuilder userBuilder;
 
     @Before
     public void setup() {
@@ -42,6 +42,23 @@ public class AlbumDAOTest {
 
         dao = injector.getInstance(AlbumDAO.class);
         userDAO = injector.getInstance(UserDAO.class);
+
+        userBuilder = UserStubBuilder.newInstance()
+                            .setLogin("login")
+                            .setName("album_user")
+                            .setPassword("123456");
+
+        imageBuilder = ImageStubBuilder.newInstance()
+                            .setContent(new byte[] { 1, 2, 3 })
+                            .setName("album_image1")
+                            .setListInstanceCount(2);
+
+        albumBuilder = AlbumStubBuilder.newInstance()
+                            .setImageBuilder(imageBuilder)
+                            .setUserBuilder(userBuilder)
+                            .setName("album1")
+                            .setRecurseDepth(1)
+                            .setListInstanceCount(2);
     }
 
     @Test
@@ -69,47 +86,30 @@ public class AlbumDAOTest {
     }
 
     private Album albumFull() {
-        final Album album = new Album();
+        albumBuilder.setListInstanceCount(2);
+        albumBuilder.setRecurseDepth(1);
+        imageBuilder.setListInstanceCount(2);
+        userBuilder.setStub(user());
 
-        album.setName("album1");
-        album.setUser(user());
-        album.setSubAlbums(ImmutableList.of(albumWithoutChilds()));
-        album.setImages(ImmutableList.of(image(), image()));
-
-        return album;
+        return albumBuilder.build();
     }
 
     private Album albumWithoutChilds() {
-        final Album album = new Album();
+        albumBuilder.setListInstanceCount(0);
+        imageBuilder.setListInstanceCount(0);
+        userBuilder.setStub(user());
 
-        album.setName("album2");
-        album.setUser(user());
-
-        return album;
+        return albumBuilder.build();
     }
 
     private User user() {
-        final String login = "login";
-
-        User user = userDAO.getByLogin(login);
+        User user = userDAO.getByLogin("login");
 
         if (user == null) {
-            user = new User();
-            user.setLogin(login);
-            user.setName("name1");
-            user.setPassword("123456");
+            user = userBuilder.build();
         }
 
         return user;
-    }
-
-    private Image image() {
-        final Image image = new Image();
-
-        image.setName("image1");
-        image.setContent(new byte[]{1, 2, 3});
-
-        return image;
     }
 
     private boolean equals(Album a, Album b) {

@@ -3,6 +3,7 @@ package com.unit7.iss.db.dao;
 import com.mongodb.DuplicateKeyException;
 import com.unit7.iss.db.DatabaseFactory;
 import com.unit7.iss.model.entity.User;
+import com.unit7.iss.stub.user.UserStubBuilder;
 import com.unit7.iss.util.compare.ReflectionComparator;
 import junit.framework.Assert;
 import org.junit.After;
@@ -17,9 +18,16 @@ public class UserDAOTest {
 
     private final String login = "testUser";
 
+    private UserStubBuilder builder;
+
     @Before
     public void setup() {
         dao = new UserDAO();
+        builder = UserStubBuilder.newInstance();
+
+        builder.setLogin(login)
+                .setName("name")
+                .setPassword("123456");
     }
 
     @Test
@@ -94,13 +102,7 @@ public class UserDAOTest {
     }
 
     private User user() {
-        final User user = new User();
-
-        user.setLogin(login);
-        user.setName("name");
-        user.setPassword("123456");
-
-        return user;
+        return builder.build();
     }
 
     private boolean equals(User a, User b) {

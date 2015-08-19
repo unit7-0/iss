@@ -2,11 +2,16 @@ package com.unit7.iss.db.dao;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.unit7.iss.db.DBConstants;
 import com.unit7.iss.db.DatabaseFactory;
 import com.unit7.iss.db.dao.base.AbstractDAO;
 import com.unit7.iss.model.entity.Album;
+import com.unit7.iss.model.entity.User;
+import org.mongodb.morphia.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * Created by breezzo on 16.08.15.
@@ -46,5 +51,11 @@ public class AlbumDAO extends AbstractDAO<Album> {
     @Override
     public int update(Album entity) {
         throw new UnsupportedOperationException();
+    }
+
+    public List<Album> getByUser(User user) {
+        return datastore.find(Album.class, "user", user)
+                        .limit(DBConstants.ENTITY_LIST_LIMIT_SIZE)
+                        .asList();
     }
 }

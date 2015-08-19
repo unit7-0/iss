@@ -2,6 +2,7 @@ package com.unit7.iss.db.dao;
 
 import com.unit7.iss.db.DatabaseFactory;
 import com.unit7.iss.model.entity.Image;
+import com.unit7.iss.stub.image.ImageStubBuilder;
 import com.unit7.iss.util.compare.ReflectionComparator;
 import junit.framework.Assert;
 import org.junit.After;
@@ -19,9 +20,15 @@ public class ImageDAOTest {
 
     private ImageDAO dao;
 
+    private ImageStubBuilder builder;
+
     @Before
     public void setup() {
         dao = new ImageDAO();
+
+        builder = ImageStubBuilder.newInstance()
+                            .setContent(new byte[] { 1, 2, 3 })
+                            .setName("image1");
     }
 
     @Test
@@ -91,12 +98,7 @@ public class ImageDAOTest {
     }
 
     private Image image() {
-        final Image model = new Image();
-
-        model.setName("123");
-        model.setContent(new byte[]{1, 2, 3});
-
-        return model;
+        return builder.build();
     }
 
     private boolean equals(Object a, Object b) {
