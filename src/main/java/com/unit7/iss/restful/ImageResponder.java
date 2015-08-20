@@ -32,9 +32,8 @@ public class ImageResponder {
     @Path("/get/{image_name}")
     @Produces({ "image/jpeg", "text/plain" })
     public Response getImage(@PathParam("image_name") String imageName) {
-        final String fileName = "/home/breezzo/" + imageName;
 
-        logger.debug("try to get file {}", fileName);
+        logger.debug("try to get file {}", imageName);
 
         try {
 

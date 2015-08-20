@@ -1,7 +1,6 @@
 package com.unit7.iss.app.conf;
 
 import com.google.inject.servlet.GuiceFilter;
-import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 import com.unit7.iss.db.DatabaseFactory;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.ServerConfiguration;
@@ -10,6 +9,7 @@ import org.glassfish.grizzly.servlet.WebappContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServlet;
 import javax.ws.rs.ProcessingException;
 import java.io.IOException;
 import java.net.URI;
@@ -88,8 +88,7 @@ public class GrizzlyServer {
         context.addFilter("GuiceFilter", GuiceFilter.class)
                 .addMappingForUrlPatterns(null, "/rest/*");
 
-
         // добавить сервлет, чтобы срабатывал фильтр Guice
-        context.addServlet("GuiceContainer", GuiceContainer.class);
+        context.addServlet("DummyServlet", HttpServlet.class);
     }
 }
