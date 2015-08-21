@@ -2,7 +2,7 @@ package com.unit7.iss.service.image;
 
 import com.carlosbecker.guice.GuiceModules;
 import com.carlosbecker.guice.GuiceTestRunner;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.unit7.iss.app.conf.GuiceMainModule;
 import com.unit7.iss.db.DatabaseFactory;
 import com.unit7.iss.model.entity.Album;

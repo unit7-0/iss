@@ -1,16 +1,15 @@
 package com.unit7.iss.db.dao;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.unit7.iss.db.DBConstants;
 import com.unit7.iss.db.DatabaseFactory;
 import com.unit7.iss.db.dao.base.AbstractDAO;
 import com.unit7.iss.model.entity.Album;
 import com.unit7.iss.model.entity.User;
-import org.mongodb.morphia.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.List;
 
 /**
@@ -41,7 +40,7 @@ public class AlbumDAO extends AbstractDAO<Album> {
                 .forEach((album) -> AlbumDAO.this.create(album));
 
         entity.getImages()
-                .forEach((image) -> imageDAO.create(image));
+                .forEach((image) -> imageDAO.create(image.getOriginal()));
 
         userDAO.create(entity.getUser());
 

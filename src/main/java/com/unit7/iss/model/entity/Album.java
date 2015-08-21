@@ -2,7 +2,8 @@ package com.unit7.iss.model.entity;
 
 import com.google.common.base.MoreObjects;
 import com.unit7.iss.model.entity.base.AbstractEntity;
-import org.mongodb.morphia.annotations.*;
+import org.mongodb.morphia.annotations.Embedded;
+import org.mongodb.morphia.annotations.Reference;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,8 +21,8 @@ public class Album extends AbstractEntity {
     @Reference
     private List<Album> subAlbums = Collections.emptyList();
 
-    @Reference(idOnly = true)
-    private List<Image> images = Collections.emptyList();
+    @Embedded
+    private List<AlbumImage> images = Collections.emptyList();
 
     public String getName() {
         return name;
@@ -39,11 +40,11 @@ public class Album extends AbstractEntity {
         this.subAlbums = subAlbums;
     }
 
-    public List<Image> getImages() {
+    public List<AlbumImage> getImages() {
         return images;
     }
 
-    public void setImages(List<Image> images) {
+    public void setImages(List<AlbumImage> images) {
         this.images = images;
     }
 

@@ -2,11 +2,13 @@ package com.unit7.iss.db.dao;
 
 import com.carlosbecker.guice.GuiceModules;
 import com.carlosbecker.guice.GuiceTestRunner;
-import com.google.inject.Inject;
+import com.google.common.io.ByteStreams;
 import com.unit7.iss.app.conf.GuiceMainModule;
+import javax.inject.Inject;
 import com.unit7.iss.db.DatabaseFactory;
 import com.unit7.iss.model.entity.Album;
 import com.unit7.iss.model.entity.User;
+import com.unit7.iss.service.ImageService;
 import com.unit7.iss.stub.image.AlbumStubBuilder;
 import com.unit7.iss.stub.image.ImageStubBuilder;
 import com.unit7.iss.stub.user.UserStubBuilder;
@@ -16,6 +18,10 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Created by breezzo on 16.08.15.
@@ -30,25 +36,35 @@ public class AlbumDAOTest {
     @Inject
     private UserDAO userDAO;
 
+    @Inject
+    private ImageService imageService;
+
     private AlbumStubBuilder albumBuilder;
     private ImageStubBuilder imageBuilder;
     private UserStubBuilder userBuilder;
 
+    private byte[] imageContent;
+
     @Before
-    public void setup() {
+    public void setup() throws IOException {
+        try (final FileInputStream fin = new FileInputStream("/home/breezzo/img2.jpg")) {
+            imageContent = ByteStreams.toByteArray(fin);
+        }
+
         userBuilder = UserStubBuilder.newInstance()
                             .setLogin("login")
                             .setName("album_user")
                             .setPassword("123456");
 
         imageBuilder = ImageStubBuilder.newInstance()
-                            .setContent(new byte[] { 1, 2, 3 })
+                            .setContent(imageContent)
                             .setName("album_image1")
                             .setListInstanceCount(2);
 
         albumBuilder = AlbumStubBuilder.newInstance()
                             .setImageBuilder(imageBuilder)
                             .setUserBuilder(userBuilder)
+                            .setImageService(imageService)
                             .setName("album1")
                             .setRecurseDepth(1)
                             .setListInstanceCount(2);

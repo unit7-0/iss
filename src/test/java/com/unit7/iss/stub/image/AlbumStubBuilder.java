@@ -1,7 +1,13 @@
 package com.unit7.iss.stub.image;
 
+import com.google.common.base.Function;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.unit7.iss.base.creation.Builder;
 import com.unit7.iss.model.entity.Album;
+import com.unit7.iss.model.entity.AlbumImage;
+import com.unit7.iss.model.entity.Image;
+import com.unit7.iss.service.ImageService;
 import com.unit7.iss.stub.user.UserStubBuilder;
 
 import java.util.ArrayList;
@@ -43,10 +49,28 @@ public class AlbumStubBuilder implements Builder<Album> {
 
         album.setName(name);
         album.setUser(userBuilder.build());
-        album.setImages(imageBuilder.buildList());
+        album.setImages(convertImages(imageBuilder.buildList()));
         album.setSubAlbums(buildList(depth));
 
         return album;
+    }
+
+    private AlbumImage convertImage(Image image) {
+        final AlbumImage albumImage = new AlbumImage();
+        albumImage.setName(image.getName());
+        albumImage.setOriginal(image);
+        albumImage.setImagePreviewContent(imageService.generatePreview(image, previewWidth, previewHeight));
+
+        return albumImage;
+    }
+
+    private List<AlbumImage> convertImages(List<Image> images) {
+        return Lists.transform(images, new Function<Image, AlbumImage>() {
+            @Override
+            public AlbumImage apply(Image input) {
+                return convertImage(input);
+            }
+        });
     }
 
     public AlbumStubBuilder setName(String name) {
@@ -74,9 +98,28 @@ public class AlbumStubBuilder implements Builder<Album> {
         return this;
     }
 
+    public AlbumStubBuilder setImageService(ImageService imageService) {
+        this.imageService = imageService;
+        return this;
+    }
+
+    public AlbumStubBuilder setPreviewWidth(int previewWidth) {
+        this.previewWidth = previewWidth;
+        return this;
+    }
+
+    public AlbumStubBuilder setPreviewHeight(int previewHeight) {
+        this.previewHeight = previewHeight;
+        return this;
+    }
+
     private String name;
     private ImageStubBuilder imageBuilder = ImageStubBuilder.newInstance();
     private UserStubBuilder userBuilder = UserStubBuilder.newInstance();
+    private ImageService imageService;
+
+    private int previewWidth = 100;
+    private int previewHeight = 100;
 
     private int listInstanceCount;
     private int recurseDepth;

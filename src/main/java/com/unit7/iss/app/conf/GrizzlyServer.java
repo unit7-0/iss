@@ -1,7 +1,9 @@
 package com.unit7.iss.app.conf;
 
 import com.google.inject.servlet.GuiceFilter;
+import com.sun.jersey.spi.container.servlet.ServletContainer;
 import com.unit7.iss.db.DatabaseFactory;
+import com.unit7.iss.restful.RestApplication;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.ServerConfiguration;
 import org.glassfish.grizzly.http.server.StaticHttpHandler;
@@ -37,21 +39,32 @@ public class GrizzlyServer {
     private HttpServer server;
 
     public void start() {
+        logger.info("init server with baseUri: {}, staticUri: {}, staticRoot: {}", BASE_URI, STATIC_URI, STATIC_ROOT);
+
         server = HttpServer.createSimpleServer();
+
+        logger.info("Server [ {} ] was created", getServerName());
 
         configureServer();
         deployServer();
 
+        logger.info("Server [ {} ] was deployed", getServerName());
+
         try {
             server.start();
+            logger.info("Server [ {} ] was started", getServerName());
         } catch (IOException e) {
             throw new ProcessingException(e.getMessage(), e);
         }
     }
 
     public void stop() {
+        logger.info("Stopping server [ {} ] ...", getServerName());
+
         DatabaseFactory.instance().destroy();
         server.shutdownNow();
+
+        logger.info("Server [ {} ] was stopped", getServerName());
     }
 
     private void configureServer() {
@@ -88,7 +101,16 @@ public class GrizzlyServer {
         context.addFilter("GuiceFilter", GuiceFilter.class)
                 .addMappingForUrlPatterns(null, "/rest/*");
 
+        // фильтр для остальной части приложения, где guice не нужен
+        // TODO подумать еще над конфигурацией
+        context.addFilter("ServletContainer", new ServletContainer(RestApplication.class))
+                .addMappingForUrlPatterns(null, "/*");
+
         // добавить сервлет, чтобы срабатывал фильтр Guice
         context.addServlet("DummyServlet", HttpServlet.class);
+    }
+
+    private String getServerName() {
+        return server.getServerConfiguration().getHttpServerName();
     }
 }

@@ -4,12 +4,12 @@
 
 angular.module('iss').
     directive('imageLoad', function() {
-        var contextPath = localStorage.getItem('contextPath');
+        var staticRoot = localStorage.getItem('staticRoot');
 
         return {
             restrict: 'A',
             scope: {},
-            templateUrl: contextPath + '/html/image_load/image_load_template.html',
+            templateUrl: staticRoot + '/html/image_load/image_load_template.html',
             link: function(scope, element, attrs) {
                 scope.model = {};
             },
@@ -21,17 +21,25 @@ angular.module('iss').
         };
     }).
     directive('albumView', function() {
-        var contextPath = localStorage.getItem('contextPath');
+        var staticRoot = localStorage.getItem('staticRoot');
 
         return {
             restrict: 'A',
             scope: {},
-            templateUrl: contextPath + '/html/image_view/album_view_template.html',
+            templateUrl: staticRoot + '/html/image_view/album_view_template.html',
             link: function(scope, element, attrs) {
-                scope.model = {};
+                scope.load();
             },
-            controller: ['$scope', function($scope) {
+            controller: ['$scope', 'Albums', function($scope, Albums) {
 
+                $scope.load = function() {
+
+                    Albums.getByUser(null, function(data) {
+                        $scope.model = data;
+                    }, function(response) {
+                        alert(response);
+                    });
+                }
             }]
         };
     });

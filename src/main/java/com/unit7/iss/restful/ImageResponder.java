@@ -2,12 +2,12 @@ package com.unit7.iss.restful;
 
 import com.google.common.base.Optional;
 import com.google.common.io.ByteStreams;
-import com.google.inject.Inject;
 import com.unit7.iss.model.entity.Image;
 import com.unit7.iss.service.ImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;

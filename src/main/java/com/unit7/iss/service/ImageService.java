@@ -13,4 +13,7 @@ public interface ImageService {
     Optional<Image> getFirstImageByName(String name);
 
     void createImage(Image image);
+
+    // TODO перенести в нормальный инструмент, возвращать значение другого типа?
+    byte[] generatePreview(Image image, int width, int height);
 }

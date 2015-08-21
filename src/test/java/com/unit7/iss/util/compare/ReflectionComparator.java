@@ -14,6 +14,15 @@ import java.util.Iterator;
 public class ReflectionComparator implements Comparator<Object> {
     @Override
     public int compare(Object a, Object b) {
+        if (a == b)
+            return 0;
+
+        if (a == null)
+            return -1;
+
+        if (b == null)
+            return 1;
+
         final Class<?> aClass = a.getClass();
         final Class<?> bClass= b.getClass();
 
@@ -25,15 +34,6 @@ public class ReflectionComparator implements Comparator<Object> {
 
         if (aClass != bClass)
             return -1;
-
-        if (a == b)
-            return 0;
-
-        if (a == null)
-            return -1;
-
-        if (b == null)
-            return 1;
 
         if (canCompare(aClass))
             return ((Comparable) a).compareTo(b);

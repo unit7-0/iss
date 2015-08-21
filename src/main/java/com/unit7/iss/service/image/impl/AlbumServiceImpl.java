@@ -1,7 +1,7 @@
 package com.unit7.iss.service.image.impl;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import com.unit7.iss.db.dao.AlbumDAO;
 import com.unit7.iss.model.entity.Album;
 import com.unit7.iss.model.entity.User;

@@ -3,12 +3,12 @@
  */
 angular.module('iss')
     .directive('mainNavbar', function() {
-        var contextPath = localStorage.getItem('contextPath');
+        var staticRoot = localStorage.getItem('staticRoot');
 
         return {
             restrict: 'A',
             scope: {},
-            templateUrl: contextPath + '/html/main/navbar_template.html',
+            templateUrl: staticRoot + '/html/main/navbar_template.html',
             link: function(scope, element, attrs) {
                 scope.model = {};
             },
